@@ -13,3 +13,4 @@ future todos:
 
 - [ ] block people
 - [ ] chat history
+- [ ] create accounts using email to store usernames permanently
