@@ -48,9 +48,11 @@ func (s *Server) readLoop(ws *websocket.Conn) {
 			continue
 		}
 		msg := buf[:n]
-		formattedMsg := fmt.Sprintf("[%s] %s", username, string(msg))
-		slog.Info(formattedMsg)
-		s.broadcast(ws, []byte(formattedMsg))
+
+		err = s.processMessage(ws, msg)
+		if err != nil {
+			slog.Error(fmt.Sprintf("[%s] process message error: %s", username, err.Error()))
+		}
 	}
 }
 
@@ -68,6 +70,15 @@ func (s *Server) broadcast(sender *websocket.Conn, b []byte) {
 			}
 		}(ws)
 	}
+}
+
+// replyToClient allows server to send messages to a single client. Auto-logs errors.
+func (s *Server) replyToClient(receiver *websocket.Conn, b []byte) error {
+	_, err := receiver.Write(b)
+	if err != nil {
+		slog.Error(fmt.Sprintf("error in replyToClient: %s", err.Error()))
+	}
+	return err
 }
 
 func main() {
