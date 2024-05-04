@@ -1,6 +1,20 @@
 # gochat
 Simple chat application using golang and websockets
 
+Release notes:
+
+##  v0:
+
+- [ ] assign random name to new user
+- [ ] save all messages in memory
+
+
+
+
+
+
+Nice to have for future:
+
 todos:
 
 - [ ] support changing names
